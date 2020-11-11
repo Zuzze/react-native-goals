@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { View, TextInput, StyleSheet, Button } from "react-native";
 
+/**
+ * Component to enter text and add it too the list by a press oof a button
+ * @param {*} props
+ * @param {function} props.onAddGoal
+ */
 const GoalInput = props => {
   const [enteredGoal, setEnteredGoal] = useState("");
 

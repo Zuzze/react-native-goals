@@ -1,14 +1,6 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import {
-  StyleSheet,
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-  FlatList,
-  Button
-} from "react-native";
+import { StyleSheet, Text, View, FlatList } from "react-native";
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 
@@ -27,6 +19,13 @@ export default function App() {
     ]);
   };
 
+  const handleDeleteGoal = goalKey => {
+    console.log("deleting goal");
+    setGoals(currentGoals => {
+      return currentGoals.filter(goal => goal.key !== goalKey);
+    });
+  };
+
   return (
     <View style={styles.container}>
       <Text>Goalss 2020</Text>
@@ -37,7 +36,11 @@ export default function App() {
       <Text>Goals</Text>
       <FlatList
         data={goals}
-        renderItem={goal => <GoalItem>{goal.item.value}</GoalItem>}
+        renderItem={goal => (
+          <GoalItem onDelete={handleDeleteGoal} id={goal.item.key}>
+            {goal.item.value}
+          </GoalItem>
+        )}
       ></FlatList>
       <StatusBar style="auto" />
     </View>
