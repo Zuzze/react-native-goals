@@ -1,11 +1,12 @@
 import { StatusBar } from "expo-status-bar";
 import React, { useState } from "react";
-import { StyleSheet, Text, View, FlatList } from "react-native";
+import { StyleSheet, Text, View, FlatList, Button } from "react-native";
 import GoalItem from "./components/GoalItem";
 import GoalInput from "./components/GoalInput";
 
 export default function App() {
   const [goals, setGoals] = useState([]);
+  const [isAddingGoal, setIsAddingGoal] = useState(false);
 
   const handleAddGoal = goal => {
     // goals cana be in previous state snapshot
@@ -13,25 +14,39 @@ export default function App() {
     // FlatList requires an array with objects including "key"
     // if you want to use custom prop insteqd of key, set "keyExtractor={myProp}" to FlatList
     // FlatList gives better performanace than ScrollView on Lists that you don't know how many items you have
+    // react render will batch all hooks setters together so not rendering twice even they are separate
     setGoals(currentGoals => [
       ...currentGoals,
       { key: Math.random().toString(), value: goal }
     ]);
+    setIsAddingGoal(false);
   };
 
   const handleDeleteGoal = goalKey => {
-    console.log("deleting goal");
     setGoals(currentGoals => {
       return currentGoals.filter(goal => goal.key !== goalKey);
     });
   };
 
+  const handleCancelGoal = () => {
+    setIsAddingGoal(false);
+  };
+
   return (
     <View style={styles.container}>
-      <Text>Goalss 2020</Text>
+      <Text>Goals 2020</Text>
 
-      <Text>Add Goal</Text>
-      <GoalInput onAddGoal={handleAddGoal} />
+      <Button
+        title="Add New Goal"
+        style={{ marginVertical: 10 }}
+        onPress={() => setIsAddingGoal(true)}
+      />
+
+      <GoalInput
+        visible={isAddingGoal}
+        onAddGoal={handleAddGoal}
+        onCancel={handleCancelGoal}
+      />
 
       <Text>Goals</Text>
       <FlatList
