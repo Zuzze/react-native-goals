@@ -6,47 +6,39 @@ import {
   Text,
   TextInput,
   View,
+  FlatList,
   Button
 } from "react-native";
+import GoalItem from "./components/GoalItem";
+import GoalInput from "./components/GoalInput";
 
 export default function App() {
-  const [enteredGoal, setEnteredGoal] = useState("");
   const [goals, setGoals] = useState([]);
 
-  const handleGoalInputChange = text => {
-    setEnteredGoal(text);
-    console.log(text);
-  };
-
-  const handleAddGoal = () => {
+  const handleAddGoal = goal => {
     // goals cana be in previous state snapshot
     // to make sure you have latest goals, use arrow function
-    setGoals(currentGoals => [...currentGoals, enteredGoal]);
-    console.log("goals", goals);
+    // FlatList requires an array with objects including "key"
+    // if you want to use custom prop insteqd of key, set "keyExtractor={myProp}" to FlatList
+    // FlatList gives better performanace than ScrollView on Lists that you don't know how many items you have
+    setGoals(currentGoals => [
+      ...currentGoals,
+      { key: Math.random().toString(), value: goal }
+    ]);
   };
 
   return (
     <View style={styles.container}>
-      <Text>Goals 2020</Text>
+      <Text>Goalss 2020</Text>
 
       <Text>Add Goal</Text>
-      <View style={styles.inputContainer}>
-        <TextInput
-          onChangeText={handleGoalInputChange}
-          value={enteredGoal}
-          style={styles.input}
-        />
-        <Button title="Add" onPress={handleAddGoal} style={{ width: "20%" }} />
-      </View>
+      <GoalInput onAddGoal={handleAddGoal} />
 
       <Text>Goals</Text>
-      <ScrollView>
-        {goals.map(goal => (
-          <View key={goal} style={styles.goalItem}>
-            <Text>{goal}</Text>
-          </View>
-        ))}
-      </ScrollView>
+      <FlatList
+        data={goals}
+        renderItem={goal => <GoalItem>{goal.item.value}</GoalItem>}
+      ></FlatList>
       <StatusBar style="auto" />
     </View>
   );
@@ -60,17 +52,7 @@ const styles = StyleSheet.create({
     // alignItems: "center",
     // justifyContent: "center"
   },
-  inputContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center"
-  },
-  input: {
-    width: "80%",
-    borderColor: "black",
-    borderWidth: 1,
-    padding: 10
-  },
+
   goalItem: {
     backgroundColor: "aliceblue",
     borderRadius: 30,
