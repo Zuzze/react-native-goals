@@ -15,7 +15,7 @@ const GoalItem = props => {
       onPress={props.onDelete.bind(this, props.id)}
     >
       <View style={styles.goalItem}>
-        <Text>{props.children}</Text>
+        <Text style={styles.text}>{props.children}</Text>
       </View>
     </TouchableOpacity>
   );
@@ -31,11 +31,17 @@ TouchableWithoutFeedback: no visual feedback of touch
 
 const styles = StyleSheet.create({
   goalItem: {
-    backgroundColor: "aliceblue",
+    backgroundColor: "#333",
     borderRadius: 30,
     padding: 20,
     marginVertical: 10,
-    width: "100%"
+    width: "100%",
+    color: "#fff"
+  },
+  text: {
+    color: "#fff",
+    fontSize: 16,
+    fontFamily: "montserrat"
   }
 });
 

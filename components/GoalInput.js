@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { View, TextInput, StyleSheet, Button, Modal } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  StyleSheet,
+  TouchableOpacity,
+  Image,
+  Modal
+} from "react-native";
 
 /**
  * Component to enter text and add it too the list by a press oof a button
@@ -29,24 +37,24 @@ const GoalInput = props => {
 
   return (
     <Modal visible={props.visible} animationType="slide">
+      <Image style={styles.image} source={require("../assets/shapes.png")} />
       <View style={styles.inputContainer}>
+        <Text style={styles.title}>Add Goal</Text>
         <TextInput
           onChangeText={handleGoalInputChange}
           value={enteredGoal}
           style={styles.input}
-          placeholder="add goal"
         />
         <View style={styles.buttonContainer}>
-          <View style={styles.button}>
-            <Button title="Cancel" color="gray" onPress={handleGoalCancel} />
-          </View>
-          <View style={styles.button}>
-            <Button
-              title="Add"
-              style={styles.addButton}
-              onPress={handleGoalSubmit}
-            />
-          </View>
+          <TouchableOpacity
+            style={styles.cancelButton}
+            onPress={handleGoalCancel}
+          >
+            <Text style={styles.buttonText}>Cancel</Text>
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={handleGoalSubmit}>
+            <Text style={styles.buttonText}>Add</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </Modal>
@@ -56,17 +64,35 @@ const GoalInput = props => {
 const styles = StyleSheet.create({
   inputContainer: {
     flex: 1,
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    marginTop: -30,
+    backgroundColor: "#222",
     justifyContent: "center",
     alignItems: "center"
   },
+  image: {
+    flex: 1,
+    width: "100%"
+  },
+  title: {
+    color: "#eee",
+    fontSize: 20,
+    fontFamily: "montserrat-bold",
+    paddingBottom: 40
+  },
   input: {
     width: "80%",
-    borderColor: "gray",
+    backgroundColor: "#333",
+    borderColor: "transparent",
     borderRadius: 30,
     borderWidth: 1,
     paddingVertical: 10,
     paddingHorizontal: 15,
-    marginBottom: 10
+    marginBottom: 10,
+    color: "white",
+    fontFamily: "montserrat",
+    fontSize: 16
   },
   buttonContainer: {
     flexDirection: "row",
@@ -75,8 +101,29 @@ const styles = StyleSheet.create({
     marginTop: 30
   },
   button: {
-    // note that in react native you cannot add width to button directly, you must wrap it into view
-    width: "45%"
+    width: "45%",
+    backgroundColor: "#6862CC",
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  cancelButton: {
+    width: "45%",
+    backgroundColor: "#D9A3DD",
+    padding: 10,
+    paddingHorizontal: 20,
+    borderRadius: 20,
+    textAlign: "center",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  buttonText: {
+    color: "white",
+    fontFamily: "montserrat",
+    fontSize: 16
   }
 });
 
